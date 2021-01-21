@@ -1,11 +1,17 @@
-import { Home } from "./views";
+import { Feature, Home } from "./views";
 
 const appRoutes = [
     {
         path: "/",
-        name: "Sign In",
+        name: "Home",
         component: Home,
-        layout: "/"
+        layout: "app"
+    },
+    {
+        path: "/features",
+        name: "Features",
+        component: Feature,
+        layout: "app"
     }
 ]
 

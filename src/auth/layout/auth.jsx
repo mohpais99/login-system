@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Header } from 'auth/components';
 import { Route, Switch } from 'react-router-dom';
-import routes from '../Routes'
-import '../Style.css';
 import { DirectLink } from 'auth/molekuls';
+import routes from '../Routes';
+import '../Style.css';
 
 class auth extends Component {
     getRoutes = (routes) => {

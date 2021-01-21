@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { useAuth } from "config/Context";
+import { useHistory } from 'react-router-dom';
 
 function SignUp() {
     const emailRef = useRef()
@@ -9,6 +10,7 @@ function SignUp() {
     const { signup } = useAuth()
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const history = useHistory()
 
     useEffect((error) => {
         let timeout = setTimeout(() => {
@@ -25,18 +27,21 @@ function SignUp() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (passwordRef.current.value !== repasswordRef.current.value) {
+            setLoading(false)
             return setError('Password do not match!')
         } 
         try {
             setError(null)
             setLoading(true)
-            // await signup({email: emailRef.current.value, password: passwordRef.current.value, displayName: fullnameRef.current.value})
-            await signup(emailRef.current.value, passwordRef.current.value)
+            await signup(emailRef.current.value, passwordRef.current.value, fullnameRef.current.value)
+            history.push('/')
         } catch (error) {
+            setLoading(false)
             const message = error.message
             setError(message)
         }
     }
+
     return (
         <>
             {

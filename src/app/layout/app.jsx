@@ -1,26 +1,30 @@
 import React from 'react';
 import { Navigation } from 'app/components';
 import { Route, Switch } from 'react-router-dom';
+import { useAuth } from "config/Context";
 import routes from '../Routes';
 
-function LayoutApp() {
+function LayoutApp(props) {
+    const { currentUser } = useAuth()
     const getRoutes = (routes) => {
         return routes.map((prop, key) => {
-            if (prop.layout === "/") {
-                return (
-                    <Route 
-                        key={key}
-                        path={prop.layout + prop.path}
-                        render={props => <prop.component {...props} />} />
-                );
-            } else {
-                return null
-            }
+            return (
+                <Route 
+                    exact
+                    key={key}
+                    path={prop.path}
+                    render={
+                        props => <prop.component user={currentUser} {...props} />
+                    } />
+            )
         });
     }
     return (
         <div className="wrapper">
-            <Navigation />
+            <Navigation 
+                {...props}
+                user={currentUser}
+                routes={routes} />
             <Switch>{getRoutes(routes)}</Switch>
         </div>
     )

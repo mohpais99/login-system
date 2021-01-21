@@ -1,32 +1,32 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from "config/Context";
+import './style.css'
 
-function Navigation() {
-    const { currentUser } = useAuth()
-    console.log(currentUser);
+function Navigation(props) {
+    const active = props.routes.filter(function(route) {
+        const pathnow = route.path
+        return pathnow === props.location.pathname
+    })
     return (
         <nav className="navbar navbar-expand-lg navbar-light bg-light">
-            <Link className="navbar-brand" to="/"><b>Login-React</b></Link>
+            <Link className="navbar-brand" to="/">Login-React</Link>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarText">
                 <ul className="navbar-nav mr-auto">
-                    <li className="nav-item active">
-                        <Link className="nav-link" to="/">Home <span className="sr-only">(current)</span></Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/">Features</Link>
-                    </li>
-                    <li className="nav-item">
-                        <Link className="nav-link" to="/">About Us</Link>
-                    </li>
+                    {
+                        props.routes.map((data, key) => 
+                            <li className={`nav-item ${data === active[0] && 'active'}`} key={key}>
+                                <Link className="nav-link" to={data.path}>{data.name}</Link>
+                            </li>
+                        )
+                    }
                 </ul>
                 {
-                    currentUser ?
+                    props.user ?
                         <span className="navbar-text">
-                            Sign In as {!currentUser.displayName ? 'Anonymous' : currentUser.displayName}
+                            Sign In as {!props.user.displayName ? 'Anonymous' : props.user.displayName}
                         </span>
                     :
                         <>
